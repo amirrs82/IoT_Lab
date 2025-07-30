@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: iot_lab_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev_password
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./server:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=dev-secret-key-not-for-production
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,backend
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=iot_lab_db
+      - DB_USER=postgres
+      - DB_PASSWORD=dev_password
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CORS_ALLOW_ALL_ORIGINS=True
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
+
+  celery:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: celery -A backend worker --loglevel=info
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=dev-secret-key-not-for-production
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=iot_lab_db
+      - DB_USER=postgres
+      - DB_PASSWORD=dev_password
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
+
+volumes:
+  pgdata_dev:
+
+networks:
+  app-network:
+    driver: bridge
