@@ -1,0 +1,146 @@
+@font-face {
+    font-family: Vazir;
+    src: url('../fonts/Vazir.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Vazir;
+    src: url('../fonts/Vazir-Bold.ttf');
+    font-weight: bold;
+}
+
+body {
+    font-family: Vazir, sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+*:-webkit-autofill,
+*:-webkit-autofill:hover,
+*:-webkit-autofill:focus,
+*:-webkit-autofill:active {
+    /* use animation hack, if you have hard styled input */
+    transition: all 5000s ease-in-out 0s;
+    transition-property: background-color, color;
+    /* if input has one color, and didn't have bg-image use shadow */
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    /* text color */
+    -webkit-text-fill-color: #e4ffba;
+}
+
+#date-box {
+    padding: 8px 20px;
+    color: rebeccapurple;
+}
+
+#date-time {
+    font-size: 14px;
+}
+
+#logout-button {
+    margin: 0 10px;
+}
+
+#logout-button i {
+    padding-right: 2px;
+}
+
+#logout-button:hover {
+    cursor: pointer;
+}
+
+#brand-logo {
+    background-image: linear-gradient(to right, #001a44, #000023);
+}
+
+#sidebar {
+    background-image: linear-gradient(to right, #003172, #00002f);
+}
+
+#navbar {
+    background-color: #00ffff;
+}
+
+.content-header {
+    padding: 20px 1rem;
+}
+
+input.number-only {
+    direction: ltr;
+    text-align: right;
+}
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it's above other content */
+}
+
+.loader {
+    border: 12px dotted #3498db;
+    border-top: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.table-container, .table-container-md, .table-container-sm, .table-container-lg{
+}
+
+@media screen and (max-width:800px) {
+    .table-container .card-body, .table-container-md .card-body, .table-container-sm .card-body {
+        overflow-x: scroll; /* Enable horizontal scrolling */
+    }
+
+    .table-container table {
+        min-width: 800px;
+    }
+
+    .table-container-sm table {
+        min-width: 500px;
+    }
+
+    .table-container-md table {
+        min-width: 650px;
+    }
+}
+
+@media screen and (max-width:1500px) {
+    .table-container-lg .card-body{
+        overflow-x: scroll;
+    }
+
+    .table-container-lg table{
+        min-width: 1500px;
+    }
+}
+
+div.dt-container div.dt-layout-cell.dt-end{
+    text-align: left;
+}
+
+div.dt-container div.dt-layout-cell.dt-start {
+    text-align: right;
+}
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+    text-align: right;
+}
+
+.swal2-container {
+    z-index: 1050 !important; /* Change this to your desired z-index value */
+}

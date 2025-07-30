@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ثبت نام</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.rtl.css"/>
+    <link rel="stylesheet" href="../src/css/style.css"/>
+    <link rel="stylesheet" href="../src/css/login.css"/>
+</head>
+<body>
+<button id="corner-button" class="btn btn-primary">بازگشت</button>
+
+<!-- TODO: Set the form available in mobile-->
+<div class="login-form signup-form container-sm" >
+    <h2>ثبت نام</h2>
+    <form action="">
+        <div class="row d-flex flex-row justify-content-evenly">
+            <div class="col-5"> 
+                <p>نام کاربری</p>
+                <input id="username-input" placeholder="نام کاربری خود را وارد کنید" type="text" required> 
+            </div>
+            <div class="col-5"> 
+                <p>رمز عبور</p>
+                <input id="password-input" placeholder="رمز عبور خود را وارد کنید" type="password" required>
+            </div>
+        </div>
+        <div class="row d-flex flex-row justify-content-evenly">
+            <div class="col-5"> 
+                <p>نام</p>
+                <input id="first-name-input" placeholder="نام خود را وارد کنید" type="text" required> 
+            </div>
+            <div class="col-5"> 
+                <p>نام خانوادگی</p>
+                <input id="last-name-input" placeholder="نام خانوادگی خود را وارد کنید" type="text" required>
+            </div>
+        </div>
+        <div class="row d-flex flex-row justify-content-around">
+            <div class="col-11"> 
+                <p>ایمیل</p>
+                <input id="email-input" placeholder="ایمیل خود را وارد کنید" type="email" required> 
+            </div>
+        </div>
+        <input id="signup-button" type="submit" value="ثبت نام">
+    </form>
+</div>
+
+<script src="../src/js/sweetalert2.all.min.js"></script>
+<script type="module" src="../src/js/signup.js"></script>
+</body>
+</html>
