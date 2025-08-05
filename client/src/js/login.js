@@ -22,7 +22,7 @@ function addEventListeners() {
                 localStorage.setItem('token', response.data.token)
                 NotificationModal("success", "ورود با موفقیت انجام شد", "لطفا کمی منتظر بمانید...")
                 setTimeout(() => {
-                    window.location.href = 'contracts.html';
+                    window.location.href = 'crypto.html';
                 }, 1000);
 
                 $("#loadingOverlay").hide();
@@ -47,7 +47,7 @@ function addEventListeners() {
 CheckHasAuthToken()
     .then((hasAuth) => {
         if (hasAuth)
-            window.location.href = "contracts.html"
+            window.location.href = "crypto.html"
         else
             addEventListeners();
     })

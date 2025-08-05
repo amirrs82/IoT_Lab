@@ -57,7 +57,7 @@ function addEventListeners() {
 CheckHasAuthToken()
     .then((hasAuth) => {
         if (hasAuth)
-            window.location.href = "contracts.html"
+            window.location.href = "crypto.html"
         else
             addEventListeners();
     })

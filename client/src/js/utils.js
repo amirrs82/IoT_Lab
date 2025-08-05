@@ -275,75 +275,11 @@ export function parseGregorianDateToPersian(date) {
 
 
 function CreateSideBar(user, page_link, sidebar, profile) {  // TODO: reports.html didn't implemented
+    // Sidebar functionality removed - keeping function for backward compatibility
+    // but not creating any sidebar items
     let html_body = "";
-    switch (user.access_level) {
-        case 'کاربر':
-            html_body += CreateSidebarItem("contracts.html", "قراردادهای من", "fa-address-book", page_link === "contracts.html");
-            html_body += CreateSidebarItem("time_alarm.html", "قرارداد درحال اتمام (زمان)", "fa-hourglass-half", page_link === "time_alarm.html");
-            html_body += CreateSidebarItem("volume_alarm.html", "قرارداد درحال اتمام (بودجه)", "fa-file-invoice-dollar", page_link === "volume_alarm.html");
-            // html_body += CreateSidebarItem("reports.html", "گزارش ها", "fa-solid fa-file-contract", page_link === "reports.html");
-            html_body += CreateSidebarItem("salary.html", "فیش حقوقی", "fa-solid fa-receipt", page_link === "salary.html");
-            html_body += CreateSidebarItem("export.html", "دیافت اکسل قراردادها", "fa-file-export", page_link === "export.html");
-            break;
-        case 'مسئول واحد':
-            html_body += CreateSidebarItem("contracts.html", "قراردادها", "fa-address-book", page_link === "contracts.html");
-            html_body += CreateSidebarItem("new_contract.html", "درخواست قرارداد جدید", "fa-solid fa-plus", page_link === "new_contract.html");
-            html_body += CreateSidebarItem("reports_waiting.html", "گزارش های درانتظار", "fa-clock", page_link === "reports_waiting.html");
-            html_body += CreateSidebarItem("time_alarm.html", "قرارداد درحال اتمام (زمان)", "fa-hourglass-half", page_link === "time_alarm.html");
-            html_body += CreateSidebarItem("volume_alarm.html", "قرارداد درحال اتمام (بودجه)", "fa-file-invoice-dollar", page_link === "volume_alarm.html");
-            // html_body += CreateSidebarItem("reports.html", "گزارش ها", "fa-solid fa-file-contract", page_link === "reports.html");
-            html_body += CreateSidebarItem("budget.html", "بودجه", "fa-solid fa-coins", page_link === "budget.html");
-            html_body += CreateSidebarItem("export.html", "دیافت اکسل قراردادها", "fa-file-export", page_link === "export.html");
-            break;
-        case 'معاونت سرفصل':
-            html_body += CreateSidebarItem("contracts.html", "قراردادها", "fa-address-book", page_link === "contracts.html");
-            html_body += CreateSidebarItem("contracts_waiting.html", "قرارداد درانتظار", "fa-clock", page_link === "contracts_waiting.html");
-            html_body += CreateSidebarItem("reports_waiting.html", "گزارش های درانتظار", "fa-clock", page_link === "reports_waiting.html");
-            html_body += CreateSidebarItem("time_alarm.html", "قرارداد درحال اتمام (زمان)", "fa-hourglass-half", page_link === "time_alarm.html");
-            html_body += CreateSidebarItem("volume_alarm.html", "قرارداد درحال اتمام (بودجه)", "fa-file-invoice-dollar", page_link === "volume_alarm.html");
-            // html_body += CreateSidebarItem("reports.html", "گزارش ها", "fa-solid fa-file-contract", page_link === "reports.html");
-            html_body += CreateSidebarItem("budget.html", "بودجه", "fa-solid fa-coins", page_link === "budget.html");
-            html_body += CreateSidebarItem("export.html", "دیافت اکسل قراردادها", "fa-file-export", page_link === "export.html");
-            break;
-        case 'مسئول قرارداد ها':
-            html_body += CreateSidebarItem("contracts.html", "قراردادها", "fa-address-book", page_link === "contracts.html");
-            html_body += CreateSidebarItem("new_contract.html", "ساخت قرارداد جدید", "fa-solid fa-plus", page_link === "new_contract.html");
-            html_body += CreateSidebarItem("contracts_waiting.html", "قرارداد درانتظار", "fa-clock", page_link === "contracts_waiting.html");
-            html_body += CreateSidebarItem("time_alarm.html", "قرارداد درحال اتمام (زمان)", "fa-hourglass-half", page_link === "time_alarm.html");
-            html_body += CreateSidebarItem("volume_alarm.html", "قرارداد درحال اتمام (بودجه)", "fa-file-invoice-dollar", page_link === "volume_alarm.html");
-            // html_body += CreateSidebarItem("reports.html", "گزارش ها", "fa-solid fa-file-contract", page_link === "reports.html");
-            html_body += CreateSidebarItem("budget_all.html", "بودجه", "fa-solid fa-coins", page_link === "budget_all.html");
-            html_body += CreateSidebarItem("users.html", "کاربران", "fa-users", page_link === "users.html");
-            html_body += CreateSidebarItem("slip.html", "فیش های حقوقی", "fa-solid fa-receipt", page_link === "slip.html")
-            html_body += CreateSidebarItem("items.html", "آیتم های قرارداد", "fa-list-alt", page_link === "items.html");
-            html_body += CreateSidebarItem("export.html", "دیافت اکسل قراردادها", "fa-file-export", page_link === "export.html");
-            break;
-        case 'مسئول تاریخ شفاهی':
-            html_body += CreateSidebarItem("contracts.html", "قراردادها", "fa-address-book", page_link === "contracts.html");
-            html_body += CreateSidebarItem("time_alarm.html", "قرارداد درحال اتمام (زمان)", "fa-hourglass-half", page_link === "time_alarm.html");
-            html_body += CreateSidebarItem("volume_alarm.html", "قرارداد درحال اتمام (بودجه)", "fa-file-invoice-dollar", page_link === "volume_alarm.html");
-            // html_body += CreateSidebarItem("reports.html", "گزارش ها", "fa-solid fa-file-contract", page_link === "reports.html");
-            html_body += CreateSidebarItem("budget_all.html", "بودجه", "fa-solid fa-coins", page_link === "budget_all.html");
-            html_body += CreateSidebarItem("budget_edit.html", "تغییر بودجه", "fa-edit", page_link === "budget_edit.html");
-            html_body += CreateSidebarItem("items.html", "آیتم های قرارداد", "fa-list-alt", page_link === "items.html");
-            html_body += CreateSidebarItem("users_access_level.html", "کاربران", "fa-users", page_link === "users_access_level.html");
-            html_body += CreateSidebarItem("export.html", "دیافت اکسل قراردادها", "fa-file-export", page_link === "export.html");
-            break;
-        default:
-        // Statements executed when none of the cases match the expression
-    }
-
     sidebar.html(html_body)
     profile.text(user.name.split('-')[1] + ' ' + user.name.split('-')[0])
-}
-
-function CreateSidebarItem(item_link, item_name, item_icon, item_active) {
-    return `<li class="nav-item">
-   <a href="./${item_link}" class="nav-link ${item_active ? "active" : ""}">
-        <i class="fa ${item_icon} nav-icon"></i>
-        <p>${item_name}</p>
-   </a>
-</li>\n`
 }
 
 function InitiateNavbar(navbar) {
@@ -375,17 +311,13 @@ function InitiateNavbar(navbar) {
 }
 
 export function CreateNavSide(page_link) {
+    // Simplified navigation - no sidebar functionality
     CheckHasAuthToken()
         .then((hasAuth) => {
             if (hasAuth) {
-                GetCurrentUser()
-                    .then((user) => {
-                        let sidebar_menu = $("#sidebar-menu")
-                        let profile_link = $("#profile-link")
-                        let navbar = $("#navbar")
-                        CreateSideBar(user, page_link, sidebar_menu, profile_link)
-                        InitiateNavbar(navbar)
-                    })
+                // Just initialize navbar without sidebar
+                let navbar = $("#navbar")
+                InitiateNavbar(navbar)
             } else
                 window.location.href = "login.html"
         })
