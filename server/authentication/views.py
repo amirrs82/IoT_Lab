@@ -12,15 +12,22 @@ from django.contrib.auth.hashers import make_password
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
-    """User registration endpoint"""
+    """
+    User registration endpoint
+    
+    Enforces email uniqueness at application level - checks for existing 
+    email before creating user account.
+    """
     try:
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
+        first_name = request.data.get('first_name', '')
+        last_name = request.data.get('last_name', '')
         
-        if not all([username, email, password]):
+        if not all([username, email, password, first_name, last_name]):
             return Response(
-                {'error': 'Username, email, and password are required'}, 
+                {'error': 'Username, email, password, first name, and last name are required'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         
@@ -36,10 +43,13 @@ def register(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        # Create user after all validations pass
         user = User.objects.create(
             username=username,
             email=email,
-            password=make_password(password)
+            password=make_password(password),
+            first_name=first_name,
+            last_name=last_name
         )
         
         token, created = Token.objects.get_or_create(user=user)
@@ -112,21 +122,58 @@ def logout_view(request):
         )
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def profile(request):
-    """Get user profile"""
+    """
+    Get or update user profile
+    
+    Note: Email cannot be changed after registration (enforced at application level).
+    Only first_name and last_name can be updated.
+    """
     try:
         user = request.user
-        return Response({
-            'user_id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'date_joined': user.date_joined,
-            'is_active': user.is_active
-        }, status=status.HTTP_200_OK)
+        
+        if request.method == 'GET':
+            return Response({
+                'user_id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'date_joined': user.date_joined,
+                'is_active': user.is_active
+            }, status=status.HTTP_200_OK)
+            
+        elif request.method == 'PUT':
+            # Check if email change is attempted (not allowed)
+            if 'email' in request.data and request.data['email'] != user.email:
+                return Response(
+                    {'error': 'Email cannot be changed'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Update user information (email cannot be changed)
+            user.first_name = request.data.get('first_name', user.first_name)
+            user.last_name = request.data.get('last_name', user.last_name)
+            
+            # Validate required fields
+            if not user.first_name or not user.last_name:
+                return Response(
+                    {'error': 'First name and last name are required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            user.save()
+            
+            return Response({
+                'message': 'Profile updated successfully',
+                'user_id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response(

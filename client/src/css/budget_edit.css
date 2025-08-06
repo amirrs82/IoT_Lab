@@ -1,0 +1,10 @@
+.price {
+    padding: 5px 2px;
+    border: none;
+    border-radius: 10px;
+}
+
+#new-budget-period {
+    width: 150px;
+    font-size: 20px;
+}

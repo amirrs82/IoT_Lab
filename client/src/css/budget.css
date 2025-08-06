@@ -1,0 +1,9 @@
+.table thead tr th, .table tfoot tr td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Style for the footer of the table */
+.table tfoot {
+    border-top: 2px solid #575759; /* Add bottom border */ !important;
+}

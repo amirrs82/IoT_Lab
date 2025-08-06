@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ورود</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.rtl.css"/>
+    <link rel="stylesheet" href="../src/css/style.css"/>
+    <link rel="stylesheet" href="../src/css/login.css"/>
+</head>
+<body>
+<div class="login-form">
+    <h2>ورود</h2>
+    <form action="">
+        <p>نام کاربری</p><input id="username-input" placeholder="نام کاربری خود را وارد کنید" type="text">
+        <p>رمز عبور</p><input id="password-input" placeholder="رمز عبور خود را وارد کنید" type="password">
+        <input id="login-button" type="submit" value="ورود">
+    </form>
+    <div class="d-flex justify-content-between flex-row" id="SignupForgotPassword">
+        <a href="signup.html" id="signup-redirect">اکانت ندارم (ثبت نام)</a>
+<!--TODO: No ForgotPassword logic yet-->
+        <a href="#">فراموشی رمز عبور</a>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" style="display: none;">
+    <div class="loader"></div> <!-- This is your loading icon -->
+</div>
+
+<script src="../src/js/sweetalert2.all.min.js"></script>
+<script type="module" src="../src/js/login.js"></script>
+</body>
+</html>

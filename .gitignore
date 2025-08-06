@@ -46,10 +46,6 @@ __pycache__/
 # Node modules
 node_modules/
 
-# Build outputs
-dist/
-build/
-
 # Docker
 docker-compose.override.yml
 
@@ -164,9 +160,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Static files
-server/staticfiles/
-server/media/
-staticfiles/
-media/
