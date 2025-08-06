@@ -1,6 +1,16 @@
 # IoT Lab Complete Setup Guide
 
-This guide will help you set up the complete IoT Lab system using Docker Compose, which includes:
+This guide will help you set up the complete IoT Lab system using Docker Compos### Database issues:
+1. Check if PostgreSQL container is running: `docker compose ps`
+2. Check database logs: `docker compose logs db`
+3. Restart the database: `docker compose restart db`
+
+### Static files issues:
+The system uses WhiteNoise to serve static files automatically. If you experience issues:
+1. Static files are automatically collected during container startup
+2. Check if backend container is running: `docker compose ps`
+3. Restart backend to re-collect static files: `docker compose restart backend`
+4. Verify static files are accessible: `curl -I http://localhost:10003/static/admin/css/base.css`hich includes:
 - Frontend (Nginx serving static files)
 - Backend (Django REST API)
 - PostgreSQL Database
@@ -44,8 +54,10 @@ After running the system, the following services will be available:
 To access the Django admin panel:
 
 ```bash
-docker-compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py createsuperuser
 ```
+
+*Note: The system uses WhiteNoise to serve static files automatically, so all Django admin styles and static assets are properly configured.*
 
 ### Access Django Admin
 - URL: http://localhost:10003/admin/
