@@ -2,12 +2,14 @@
     font-family: Vazir;
     src: url('../fonts/Vazir.ttf');
     font-weight: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: Vazir;
     src: url('../fonts/Vazir-Bold.ttf');
     font-weight: bold;
+    font-display: swap;
 }
 
 body {

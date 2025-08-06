@@ -12,7 +12,12 @@ from django.contrib.auth.hashers import make_password
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
-    """User registration endpoint"""
+    """
+    User registration endpoint
+    
+    Enforces email uniqueness at application level - checks for existing 
+    email before creating user account.
+    """
     try:
         username = request.data.get('username')
         email = request.data.get('email')
@@ -38,6 +43,7 @@ def register(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        # Create user after all validations pass
         user = User.objects.create(
             username=username,
             email=email,
@@ -119,7 +125,12 @@ def logout_view(request):
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def profile(request):
-    """Get or update user profile"""
+    """
+    Get or update user profile
+    
+    Note: Email cannot be changed after registration (enforced at application level).
+    Only first_name and last_name can be updated.
+    """
     try:
         user = request.user
         
@@ -135,10 +146,24 @@ def profile(request):
             }, status=status.HTTP_200_OK)
             
         elif request.method == 'PUT':
-            # Update user information
+            # Check if email change is attempted (not allowed)
+            if 'email' in request.data and request.data['email'] != user.email:
+                return Response(
+                    {'error': 'Email cannot be changed'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Update user information (email cannot be changed)
             user.first_name = request.data.get('first_name', user.first_name)
             user.last_name = request.data.get('last_name', user.last_name)
-            user.email = request.data.get('email', user.email)
+            
+            # Validate required fields
+            if not user.first_name or not user.last_name:
+                return Response(
+                    {'error': 'First name and last name are required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
             user.save()
             
             return Response({

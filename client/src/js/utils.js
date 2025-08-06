@@ -63,17 +63,32 @@ export function NotifyErrors(error, common_title) {
 
 
 
-export function CheckHasAuthToken() {
+export function CheckHasAuthToken(retryCount = 0) {
     return new Promise((resolve, reject) => {
-        if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token");
+        
+        if (token) {
             // Check if token is valid by trying to access profile endpoint
             axiosAgent.get("/api/auth/profile/")
                 .then((response) => {
                     resolve(true);
                 })
                 .catch((error) => {
-                    localStorage.removeItem("token");
-                    resolve(false);
+                    // If it's a network error and we haven't retried yet, try once more
+                    if (retryCount === 0 && (!error.response || error.response.status >= 500)) {
+                        console.log("Network error, retrying token validation...");
+                        setTimeout(() => {
+                            CheckHasAuthToken(1).then(resolve).catch(() => {
+                                console.error("Token validation failed after retry:", error.response?.status || error.message);
+                                localStorage.removeItem("token");
+                                resolve(false);
+                            });
+                        }, 1000);
+                    } else {
+                        console.error("Token validation failed:", error.response?.status || error.message);
+                        localStorage.removeItem("token");
+                        resolve(false);
+                    }
                 });
         } else {
             resolve(false);
@@ -82,7 +97,7 @@ export function CheckHasAuthToken() {
 }
 
 export function GetCurrentUser() {
-    return axiosAgent.get("retrieve/current_user/")
+    return axiosAgent.get("/api/auth/profile/")
         .then((response) => {
             return response.data; // Return the user's information
         })
@@ -273,15 +288,6 @@ export function parseGregorianDateToPersian(date) {
     return result.toCalendar('persian').format("YYYY/MM/DD");
 }
 
-
-function CreateSideBar(user, page_link, sidebar, profile) {  // TODO: reports.html didn't implemented
-    // Sidebar functionality removed - keeping function for backward compatibility
-    // but not creating any sidebar items
-    let html_body = "";
-    sidebar.html(html_body)
-    profile.text(user.name.split('-')[1] + ' ' + user.name.split('-')[0])
-}
-
 function InitiateNavbar(navbar) {
     let date_time = navbar.find('#date-box').find('#date-time')
     let logout_btn = navbar.find('#logout-button')
@@ -310,14 +316,46 @@ function InitiateNavbar(navbar) {
     date_time.text(formattedDate);
 }
 
+function CreateSideBar(page_link, sidebar, profile) {  // TODO: reports.html didn't implemented
+    let html_body = "";
+    html_body += CreateSidebarItem("crypto.html", "ارزهای دیجیتال", "fa-address-book", page_link === "crypto.html");
+
+    sidebar.html(html_body)
+    
+    // Get current user and update profile
+    GetCurrentUser()
+        .then((user) => {
+            // Use first_name and last_name from the API response
+            const displayName = `${user.first_name} ${user.last_name}`.trim() || user.username;
+            profile.text(displayName);
+        })
+        .catch((error) => {
+            console.error("Error fetching user for profile:", error);
+            profile.text("User")
+        });
+}
+
+function CreateSidebarItem(item_link, item_name, item_icon, item_active) {
+    return `<li class="nav-item">
+   <a href="./${item_link}" class="nav-link ${item_active ? "active" : ""}">
+        <i class="fa ${item_icon} nav-icon"></i>
+        <p>${item_name}</p>
+   </a>
+</li>\n`
+}
+
 export function CreateNavSide(page_link) {
-    // Simplified navigation - no sidebar functionality
     CheckHasAuthToken()
         .then((hasAuth) => {
             if (hasAuth) {
-                // Just initialize navbar without sidebar
+                // Initialize navbar
                 let navbar = $("#navbar")
                 InitiateNavbar(navbar)
+                
+                // Initialize sidebar
+                let sidebar_menu = $("#sidebar-menu")
+                let profile_link = $("#profile-link")
+                CreateSideBar(page_link, sidebar_menu, profile_link)
             } else
                 window.location.href = "login.html"
         })

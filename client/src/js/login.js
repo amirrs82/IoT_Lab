@@ -19,7 +19,8 @@ function addEventListeners() {
 
         axiosAgent.post("/api/auth/login/", data)
             .then((response) => {
-                localStorage.setItem('token', response.data.token)
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('freshLogin', 'true'); // Flag to indicate fresh login
                 NotificationModal("success", "ورود با موفقیت انجام شد", "لطفا کمی منتظر بمانید...")
                 setTimeout(() => {
                     window.location.href = 'crypto.html';
@@ -53,4 +54,5 @@ CheckHasAuthToken()
     })
     .catch((error) => {
         console.error("Error checking authentication:", error);
+        addEventListeners();
     });

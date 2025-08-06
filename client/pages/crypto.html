@@ -16,7 +16,9 @@
   <!-- template rtl version -->
   <link rel="stylesheet" href="../dist/css/custom-style.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../src/css/dataTables.dataTables.min.css">
+  <!-- <link rel="stylesheet" href="../src/css/dataTables.dataTables.min.css"> -->
+  <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.css">
+
 
   <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
   <link rel="stylesheet" href="../src/css/style.css">
@@ -47,6 +49,42 @@
     </ul>
   </nav>
   <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-info elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" id="brand-logo" class="brand-link">
+      <img src="../src/images/logo.jpg" alt="Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">مدیریت قرارداد</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar" style="direction: ltr">
+      <div style="direction: rtl">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 mb-3 pb-3 d-flex" style="padding-right: 12px">
+          <div class="image">
+            <img src="../src/images/avatar.jpg" class="img-circle elevation-2" alt="avatar">
+          </div>
+          <div class="info">
+            <a href="profile.html" class="d-block" id="profile-link">پروفایل</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" id="sidebar-menu" data-widget="treeview"
+              role="menu" data-accordion="false">
+            <!-- Sidebar menu created here in js-->
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -90,9 +128,9 @@
                   <tr>
                     <th>نام</th>
                     <th>نماد</th>
-                    <th>قیمت (USD)</th>
+                    <th>قیمت فعلی (USD)</th>
                     <th>تغییر 24 ساعت (%)</th>
-                    <th>حجم معاملات</th>
+                    <th>آخرین بروزرسانی</th>
                     <th>عملیات</th>
                   </tr>
                   </thead>
@@ -137,7 +175,9 @@
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.js"></script>
 <!-- DataTables -->
-<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+<!-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script> -->
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+
 
 <script src="../dist/js/persian-date.min.js"></script>
 <script src="../src/js/sweetalert2.all.min.js"></script>

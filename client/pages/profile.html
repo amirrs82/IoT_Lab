@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>پروفایل کاربری</title>
+
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../plugins/font-awesome/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- bootstrap rtl -->
+  <link rel="stylesheet" href="../dist/css/bootstrap-rtl.min.css">
+  <!-- template rtl version -->
+  <link rel="stylesheet" href="../dist/css/custom-style.css">
+  <!-- DataTables -->
+  <!-- <link rel="stylesheet" href="../src/css/dataTables.dataTables.min.css"> -->
+  <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.css">
+
+
+  <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../src/css/style.css">
+
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-light border-bottom" id="navbar">
+    <!-- Right navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <span class="nav-link brand-text">پروفایل کاربری</span>
+      </li>
+    </ul>
+
+    <!-- Left navbar links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" id="date-box">
+        <b>تاریخ امروز:</b>
+        <div class="d-inline" id="date-time">1402/07/17</div>
+      </li>
+      <li class="nav-item nav-link" id="logout-button">
+        خروج
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-info elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" id="brand-logo" class="brand-link">
+      <img src="../src/images/logo.jpg" alt="Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">مدیریت قرارداد</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar" style="direction: ltr">
+      <div style="direction: rtl">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 mb-3 pb-3 d-flex" style="padding-right: 12px">
+          <div class="image">
+            <img src="../src/images/avatar.jpg" class="img-circle elevation-2" alt="avatar">
+          </div>
+          <div class="info">
+            <a href="profile.html" class="d-block" id="profile-link">پروفایل</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" id="sidebar-menu" data-widget="treeview"
+              role="menu" data-accordion="false">
+            <!-- Sidebar menu created here in js-->
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-lg-6">
+            <h1 class="m-0 text-dark">پروفایل کاربری</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row d-flex flex-row">
+          <!-- Profile Section -->
+          <section class="col-12">
+            <!-- Profile Card -->
+            <div class="card card-info">
+              <div class="card-header p-0">
+                <h3 class="card-title p-3">
+                  <i class="fa fa-user mr-1"></i>
+                  اطلاعات کاربری
+                </h3>
+                <div class="card-tools p-3">
+                  <button type="button" class="btn btn-primary btn-sm" id="edit-profile-btn">
+                    <i class="fa fa-edit"></i>
+                    ویرایش
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <!-- Profile Display Form -->
+                <div id="profile-display">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>نام کاربری:</label>
+                        <p class="form-control-static" id="display-username">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>ایمیل:</label>
+                        <p class="form-control-static" id="display-email">-</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>نام:</label>
+                        <p class="form-control-static" id="display-first-name">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>نام خانوادگی:</label>
+                        <p class="form-control-static" id="display-last-name">-</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>تاریخ عضویت:</label>
+                        <p class="form-control-static" id="display-date-joined">-</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>وضعیت حساب:</label>
+                        <p class="form-control-static" id="display-is-active">-</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Profile Edit Form -->
+                <div id="profile-edit" style="display: none;">
+                  <form id="profile-form">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="edit-first-name">نام:</label>
+                          <input type="text" class="form-control" id="edit-first-name" placeholder="نام خود را وارد کنید">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="edit-last-name">نام خانوادگی:</label>
+                          <input type="text" class="form-control" id="edit-last-name" placeholder="نام خانوادگی خود را وارد کنید">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>ایمیل:</label>
+                          <p class="form-control-static text-muted" id="edit-display-email">
+                            <small><i class="fa fa-info-circle"></i> ایمیل قابل تغییر نیست</small>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-success mr-2">
+                          <i class="fa fa-save"></i>
+                          ذخیره تغییرات
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancel-edit-btn">
+                          <i class="fa fa-times"></i>
+                          انصراف
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.Profile Card -->
+          </section>
+          <!-- /.section -->
+        </div>
+        <!-- /.row (Main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <!--  Footer goes here  -->
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loader"></div> <!-- This is your loading icon -->
+</div>
+
+<!-- jQuery -->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.js"></script>
+
+<script src="../dist/js/persian-date.min.js"></script>
+<script src="../src/js/sweetalert2.all.min.js"></script>
+<script type="module" src="../src/js/profile.js"></script>
+
+</body>
+</html>
