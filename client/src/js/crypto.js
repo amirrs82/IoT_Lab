@@ -171,9 +171,8 @@ function initializeEventHandlers() {
     // View crypto button handler (delegated event)
     $('#crypto-table').on('click', '.view-crypto-btn', function() {
         const cryptoId = $(this).data('crypto-id');
-        // TODO: Navigate to crypto details page
-        console.log('View crypto details for ID:', cryptoId);
-        NotificationModal('info', 'اطلاعات ارز دیجیتال', `صفحه جزئیات ارز ${cryptoId} بعداً پیاده‌سازی خواهد شد.`);
+        localStorage.setItem('crypto_uuid', cryptoId);
+        window.location.href = 'crypto_details.html';
     });
 
     // Logout button handler

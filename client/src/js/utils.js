@@ -318,7 +318,8 @@ function InitiateNavbar(navbar) {
 
 function CreateSideBar(page_link, sidebar, profile) {  // TODO: reports.html didn't implemented
     let html_body = "";
-    html_body += CreateSidebarItem("crypto.html", "ارزهای دیجیتال", "fa-address-book", page_link === "crypto.html");
+    html_body += CreateSidebarItem("crypto.html", "ارزهای دیجیتال", "fa-address-book", page_link === "crypto.html" || page_link === "crypto_details.html");
+    html_body += CreateSidebarItem("subscriptions.html", "اشتراک‌ها", "fa-bell", page_link === "subscriptions.html");
 
     sidebar.html(html_body)
     
