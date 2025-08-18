@@ -162,6 +162,18 @@ CORS_ALLOW_CREDENTIALS = True
 # Celery Configuration
 CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
 CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
 
 # Time Zone
 TIME_ZONE = os.environ.get('TIMEZONE', 'UTC')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True  # Transport Layer Security
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

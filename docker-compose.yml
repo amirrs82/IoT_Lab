@@ -45,6 +45,8 @@ services:
       - DB_PORT=5432
       - REDIS_URL=redis://redis:6379/0
       - CORS_ALLOW_ALL_ORIGINS=True
+      - EMAIL_HOST_USER=darkthunder.sn@gmail.com
+      - EMAIL_HOST_PASSWORD=pdulcmpmtjceklsh
     depends_on:
       - db
       - redis
@@ -80,6 +82,34 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
       - REDIS_URL=redis://redis:6379/0
+      - EMAIL_HOST_USER=darkthunder.sn@gmail.com
+      - EMAIL_HOST_PASSWORD=pdulcmpmtjceklsh
+    depends_on:
+      - db
+      - redis
+      - backend
+    networks:
+      - app-network
+
+  celery-beat:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: celery -A backend beat --loglevel=info
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=iot-lab-super-secret-key-for-production-2025
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=iot_lab_db
+      - DB_USER=iot_user
+      - DB_PASSWORD=iot_secure_password_2025
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - EMAIL_HOST_USER=darkthunder.sn@gmail.com
+      - EMAIL_HOST_PASSWORD=pdulcmpmtjceklsh
     depends_on:
       - db
       - redis

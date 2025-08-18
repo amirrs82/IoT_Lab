@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Currency, CurrencySubscription
+from cryptocurrency.models import Currency, CurrencySubscription
 
 
 @admin.register(Currency)

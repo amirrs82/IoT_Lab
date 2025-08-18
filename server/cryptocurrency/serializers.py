@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Currency, CurrencySubscription
+from cryptocurrency.models import Currency, CurrencySubscription
 
 
 class CurrencySerializer(serializers.ModelSerializer):
