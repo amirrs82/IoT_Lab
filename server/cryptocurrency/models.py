@@ -47,13 +47,12 @@ class CurrencySubscription(models.Model):
         ordering = ['-created_at']
 
     def clean(self):
-        """Validate that at least one of floor or ceiling is set"""
+        """Validate that exactly one of floor or ceiling is set"""
         if self.floor is None and self.ceiling is None:
-            raise ValidationError("At least one of 'floor' or 'ceiling' must be set.")
+            raise ValidationError("Exactly one of 'floor' or 'ceiling' must be set.")
         
         if self.floor is not None and self.ceiling is not None:
-            if self.floor >= self.ceiling:
-                raise ValidationError("Floor price must be less than ceiling price.")
+            raise ValidationError("Cannot set both 'floor' and 'ceiling'. Choose only one.")
 
     def save(self, *args, **kwargs):
         self.clean()

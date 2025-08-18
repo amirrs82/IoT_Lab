@@ -31,20 +31,19 @@ class CurrencySubscriptionSerializer(serializers.ModelSerializer):
         read_only_fields = ['uuid', 'user', 'last_update', 'created_at', 'user_username']
 
     def validate(self, data):
-        """Validate that at least one of floor or ceiling is set"""
+        """Validate that exactly one of floor or ceiling is set"""
         floor = data.get('floor')
         ceiling = data.get('ceiling')
         
         if floor is None and ceiling is None:
             raise serializers.ValidationError(
-                "At least one of 'floor' or 'ceiling' must be set."
+                "Exactly one of 'floor' or 'ceiling' must be set."
             )
         
         if floor is not None and ceiling is not None:
-            if floor >= ceiling:
-                raise serializers.ValidationError(
-                    "Floor price must be less than ceiling price."
-                )
+            raise serializers.ValidationError(
+                "Cannot set both 'floor' and 'ceiling'. Choose only one."
+            )
         
         return data
 
@@ -57,20 +56,19 @@ class CurrencySubscriptionCreateSerializer(serializers.ModelSerializer):
         fields = ['currency', 'floor', 'ceiling']
 
     def validate(self, data):
-        """Validate that at least one of floor or ceiling is set"""
+        """Validate that exactly one of floor or ceiling is set"""
         floor = data.get('floor')
         ceiling = data.get('ceiling')
         
         if floor is None and ceiling is None:
             raise serializers.ValidationError(
-                "At least one of 'floor' or 'ceiling' must be set."
+                "Exactly one of 'floor' or 'ceiling' must be set."
             )
         
         if floor is not None and ceiling is not None:
-            if floor >= ceiling:
-                raise serializers.ValidationError(
-                    "Floor price must be less than ceiling price."
-                )
+            raise serializers.ValidationError(
+                "Cannot set both 'floor' and 'ceiling'. Choose only one."
+            )
         
         return data
 
