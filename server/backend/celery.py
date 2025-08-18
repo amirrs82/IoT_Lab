@@ -21,7 +21,7 @@ app.conf.timezone = 'UTC'
 app.conf.beat_schedule = {
     'update_currency_prices_every_5_minutes': {
         'task': 'cryptocurrency.tasks.update_currency_prices',
-        'schedule': crontab(minute='*/5'),  # Every 5 minutes
+        'schedule': crontab(minute='*/2'),  # Every 2 minutes
     },
 }
 
