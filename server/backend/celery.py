@@ -1,5 +1,6 @@
 import os
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 
 # Set the default Django settings module for the 'celery' program.
@@ -13,6 +14,16 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
+
+app.conf.timezone = 'UTC'
+
+# Configure periodic tasks
+app.conf.beat_schedule = {
+    'update_currency_prices_every_5_minutes': {
+        'task': 'cryptocurrency.tasks.update_currency_prices',
+        'schedule': crontab(minute='*/5'),  # Every 5 minutes
+    },
+}
 
 
 @app.task(bind=True)

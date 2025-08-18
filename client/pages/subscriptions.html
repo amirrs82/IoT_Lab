@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ارزهای دیجیتال</title>
+  <title>اشتراک‌ها</title>
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,9 +16,7 @@
   <!-- template rtl version -->
   <link rel="stylesheet" href="../dist/css/custom-style.css">
   <!-- DataTables -->
-  <!-- <link rel="stylesheet" href="../src/css/dataTables.dataTables.min.css"> -->
   <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.css">
-
 
   <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
   <link rel="stylesheet" href="../src/css/style.css">
@@ -32,7 +30,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <span class="nav-link brand-text">ارزهای دیجیتال</span>
+        <span class="nav-link brand-text">اشتراک‌ها</span>
       </li>
     </ul>
 
@@ -85,81 +83,86 @@
     <!-- /.sidebar -->
   </aside>
 
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="spinner-border text-light" role="status">
+          <span class="sr-only">در حال بارگذاری...</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-lg-6">
-            <h1 class="m-0 text-dark">ارزهای دیجیتال</h1>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+          <div class="col-sm-6">
+            <h1>اشتراک‌های من</h1>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Main row -->
-        <div class="row d-flex flex-row">
-          <!-- Crypto Table Section -->
-          <section class="col-12 table-container-lg">
-            <!-- Title Card -->
+        
+        <!-- Subscriptions Table -->
+        <div class="row">
+          <div class="col-12">
             <div class="card card-info">
-              <div class="card-header p-0">
-                <h3 class="card-title p-3">
-                  <i class="fa fa-coins mr-1"></i>
-                  لیست ارزهای دیجیتال
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-list mr-1"></i>
+                  تمامی اشتراک‌ها
                 </h3>
-                <div class="card-tools p-1">
-                  <button type="button" class="btn btn-tool" id="refresh-btn" title="بروزرسانی">
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" id="refresh-subscriptions-btn" title="بازخوانی اشتراک‌ها">
                     <i class="fa fa-sync-alt"></i>
                   </button>
                 </div>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body p-2">
-                <table id="crypto-table" class="table">
+              <div class="card-body">
+                <table id="subscriptions-table" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>نام</th>
+                    <th>ارز دیجیتال</th>
                     <th>نماد</th>
-                    <th>قیمت فعلی (USD)</th>
-                    <th>تغییر 24 ساعت (%)</th>
-                    <th>آخرین بروزرسانی</th>
+                    <th>نوع</th>
+                    <th>قیمت</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ ایجاد</th>
                     <th>عملیات</th>
                   </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                  </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.Title Card -->
-          </section>
-          <!-- /.section -->
+          </div>
         </div>
-        <!-- /.row (Main row) -->
+
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
-    <!--  Footer goes here  -->
+  <!-- Main Footer -->
+  <footer class="main-footer" id="footer">
+    <div class="float-right d-none d-sm-inline-block">
+      <b>نسخه</b> 1.0.0
+    </div>
+    <strong>کپی رایت &copy; 2023 پیش‌فرض.</strong> تمامی حقوق محفوظ است.
   </footer>
-
 </div>
 <!-- ./wrapper -->
 
-<!-- Loading Overlay -->
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="loader"></div> <!-- This is your loading icon -->
-</div>
+<!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
@@ -174,13 +177,14 @@
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.js"></script>
 <!-- DataTables -->
-<!-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script> -->
 <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
 
-
+<!-- Persian Date -->
 <script src="../dist/js/persian-date.min.js"></script>
+<!-- SweetAlert2 -->
 <script src="../src/js/sweetalert2.all.min.js"></script>
-<script type="module" src="../src/js/crypto.js"></script>
 
+<!-- Main module -->
+<script type="module" src="../src/js/subscriptions.js"></script>
 </body>
 </html>

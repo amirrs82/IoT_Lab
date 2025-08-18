@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>جزئیات ارز دیجیتال</title>
+
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../plugins/font-awesome/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- bootstrap rtl -->
+  <link rel="stylesheet" href="../dist/css/bootstrap-rtl.min.css">
+  <!-- template rtl version -->
+  <link rel="stylesheet" href="../dist/css/custom-style.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.css">
+
+  <link rel="stylesheet" href="../src/css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../src/css/style.css">
+
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-light border-bottom" id="navbar">
+    <!-- Right navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <span class="nav-link brand-text">جزئیات ارز دیجیتال</span>
+      </li>
+    </ul>
+
+    <!-- Left navbar links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" id="date-box">
+        <b>تاریخ امروز:</b>
+        <div class="d-inline" id="date-time">1402/07/17</div>
+      </li>
+      <li class="nav-item nav-link" id="logout-button">
+        خروج
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-info elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" id="brand-logo" class="brand-link">
+      <img src="../src/images/logo.jpg" alt="Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">مدیریت ارزهای دیجیتال</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar" style="direction: ltr">
+      <div style="direction: rtl">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 mb-3 pb-3 d-flex" style="padding-right: 12px">
+          <div class="image">
+            <img src="../src/images/avatar.jpg" class="img-circle elevation-2" alt="avatar">
+          </div>
+          <div class="info">
+            <a href="profile.html" class="d-block" id="profile-link">پروفایل</a>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" id="sidebar-menu" data-widget="treeview"
+              role="menu" data-accordion="false">
+            <!-- Sidebar menu created here in js-->
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="spinner-border text-light" role="status">
+          <span class="sr-only">در حال بارگذاری...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 id="currency-title">جزئیات ارز دیجیتال</h1>
+          </div>
+          <div class="col-sm-6">
+            <div class="float-sm-left">
+              <a href="crypto.html" class="btn btn-secondary btn-sm">
+                <i class="fa fa-arrow-right mr-1"></i>
+                بازگشت
+              </a>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        
+        <!-- First Row: Subscription Creation -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-plus mr-1"></i>
+                  اشتراک جدید
+                </h3>
+                <div class="card-tools">
+                  <div class="d-flex align-items-center">
+                    <span class="ml-5" id="current-price-info">
+                      <strong>قیمت فعلی:</strong> <span id="current-price">در حال بارگذاری...</span>
+                    </span>
+                    <span id="daily-change-info">
+                      <strong>تغییر روزانه:</strong> <span id="daily-change">در حال بارگذاری...</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="d-flex flex-column align-items-center">
+                  <select class="form-control col-5 m-5" id="type-selector" title="انتخاب نوع هشدار">
+                    <option value="">انتخاب نوع هشدار</option>
+                    <option value="floor">Floor (حداقل قیمت)</option>
+                    <option value="ceiling">Ceiling (حداکثر قیمت)</option>
+                  </select>
+                  <input type="number" step="0.00000001" id="price-input" class="form-control mb-5 col-6 p-3 text-center"
+                         placeholder="قیمت را وارد کنید">
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" id="create-subscription-btn" class="btn btn-success pr-4 pl-4 float-left">ایجاد اشتراک</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Row: Subscriptions Table -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-list mr-1"></i>
+                  اشتراک‌های فعال
+                </h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" id="refresh-subscriptions-btn" title="بازخوانی اشتراک‌ها">
+                    <i class="fa fa-sync-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <table id="subscriptions-table" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>نوع</th>
+                    <th>قیمت</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ ایجاد</th>
+                    <th>عملیات</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Third Row: Analysis Tools -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-warning">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa fa-chart-line mr-1"></i>
+                  ابزارهای تحلیل
+                </h3>
+              </div>
+              <div class="card-body text-center">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <button type="button" id="ict-strategy-btn" class="btn btn-warning btn-lg btn-block">
+                      <i class="fa fa-brain mr-2"></i>
+                      تحلیل استراتژی ICT
+                    </button>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <button type="button" id="market-analysis-btn" class="btn btn-info btn-lg btn-block">
+                      <i class="fa fa-chart-area mr-2"></i>
+                      تحلیل تکنیکال بازار
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer" id="footer">
+    <div class="float-right d-none d-sm-inline-block">
+      <b>نسخه</b> 1.0.0
+    </div>
+    <strong>کپی رایت &copy; 2023 پیش‌فرض.</strong> تمامی حقوق محفوظ است.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.js"></script>
+<!-- DataTables -->
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+
+<!-- Persian Date -->
+<script src="../dist/js/persian-date.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="../src/js/sweetalert2.all.min.js"></script>
+
+<!-- Main module -->
+<script type="module" src="../src/js/crypto_details.js"></script>
+</body>
+</html>
