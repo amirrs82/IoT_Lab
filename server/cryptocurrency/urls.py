@@ -5,6 +5,7 @@ from cryptocurrency.views import (
     CurrencySubscriptionListAPIView,
     CurrencySubscriptionCreateAPIView,
     CurrencySubscriptionCancelAPIView,
+    analyze_coin,
 )
 
 app_name = 'cryptocurrency'
@@ -18,4 +19,5 @@ urlpatterns = [
     path('subscriptions/', CurrencySubscriptionListAPIView.as_view(), name='subscription-list'),
     path('subscriptions/create/', CurrencySubscriptionCreateAPIView.as_view(), name='subscription-create'),
     path('subscriptions/<uuid:uuid>/cancel/', CurrencySubscriptionCancelAPIView.as_view(), name='subscription-cancel'),
+    path('analyze/', analyze_coin, name='analyze_coin'),
 ]

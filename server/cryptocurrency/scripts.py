@@ -127,3 +127,46 @@ def get_historical_price_data(coin_name, start_time, end_time, step_seconds, cur
         return prices
     except requests.RequestException as e:
         return {"error": str(e)}
+
+
+def detect_structure_breaks(candles):
+    structure = []
+    for i in range(2, len(candles)):
+        if candles[i - 2]["high"] < candles[i - 1]["high"] < candles[i]["high"]:
+            structure.append({"index": i, "type": "bullish_BOS", "level": candles[i]["high"]})
+        elif candles[i - 2]["low"] > candles[i - 1]["low"] > candles[i]["low"]:
+            structure.append({"index": i, "type": "bearish_BOS", "level": candles[i]["low"]})
+    return structure
+
+
+def detect_turtle_soup(candles, lookback=5):
+    signals = []
+    for i in range(lookback, len(candles)):
+        highs = [c["high"] for c in candles[i - lookback:i]]
+        prev_high = max(highs)
+        if candles[i]["high"] > prev_high > candles[i]["close"]:
+            signals.append({"index": i, "type": "bearish_turtle_soup", "level": prev_high})
+        lows = [c["low"] for c in candles[i - lookback:i]]
+        prev_low = min(lows)
+        if candles[i]["low"] < prev_low < candles[i]["close"]:
+            signals.append({"index": i, "type": "bullish_turtle_soup", "level": prev_low})
+    return signals
+
+
+def detect_ote(candles, structure, fib_ratio=0.618):
+    ote_zones = []
+    for s in structure:
+        i = s["index"]
+        if s["type"] == "bullish_BOS" and i >= 2:
+            swing_low = candles[i - 2]["low"]
+            high_lvl = candles[i]["high"]
+            entry = high_lvl - (high_lvl - swing_low) * fib_ratio
+            ote_zones.append({"index": i, "type": "bullish_ote", "entry": entry,
+                              "swing_low": swing_low, "break_level": high_lvl})
+        elif s["type"] == "bearish_BOS" and i >= 2:
+            swing_high = candles[i - 2]["high"]
+            low_lvl = candles[i]["low"]
+            entry = low_lvl + (swing_high - low_lvl) * fib_ratio
+            ote_zones.append({"index": i, "type": "bearish_ote", "entry": entry,
+                              "swing_high": swing_high, "break_level": low_lvl})
+    return ote_zones
