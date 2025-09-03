@@ -16,7 +16,9 @@
 <!-- TODO: Set the form available in mobile-->
 <div class="login-form signup-form container-sm" >
     <h2>ثبت نام</h2>
-    <form action="">
+    
+    <!-- Step 1: User Information Form -->
+    <form id="user-info-form" action="">
         <div class="row d-flex flex-row justify-content-evenly">
             <div class="col-5"> 
                 <p>نام کاربری</p>
@@ -43,7 +45,30 @@
                 <input id="email-input" placeholder="ایمیل خود را وارد کنید" type="email" required> 
             </div>
         </div>
-        <input id="signup-button" type="submit" value="ثبت نام">
+        <input id="request-verification-button" type="submit" value="درخواست کد تایید">
+    </form>
+
+    <!-- Step 2: Verification Code Form -->
+    <form id="verification-form" action="">
+        <div class="row d-flex flex-row justify-content-around">
+            <div class="col-11"> 
+                <p>کد تایید ارسال شده به ایمیل خود را وارد کنید</p>
+                <input id="verification-code-input" placeholder="کد تایید 8 رقمی" type="text" maxlength="8" required> 
+            </div>
+        </div>
+        <div class="row d-flex flex-row justify-content-around mt-3">
+            <div class="col-5">
+                <button id="back-to-info-button" type="button" class="btn btn-secondary w-100">بازگشت</button>
+            </div>
+            <div class="col-5">
+                <input id="complete-signup-button" type="submit" value="تکمیل ثبت نام" class="w-100">
+            </div>
+        </div>
+        <div class="row d-flex flex-row justify-content-around mt-2">
+            <div class="col-11">
+                <button id="resend-code-button" type="button" class="btn btn-link w-100">ارسال مجدد کد تایید</button>
+            </div>
+        </div>
     </form>
 </div>
 

@@ -122,3 +122,20 @@ body:before {
     left: 1%;
     z-index: 1;
 }
+
+/* Signup form steps */
+#user-info-form {
+    display: block;
+}
+
+#verification-form {
+    display: none;
+}
+
+.verification-form-visible #user-info-form {
+    display: none;
+}
+
+.verification-form-visible #verification-form {
+    display: block;
+}
