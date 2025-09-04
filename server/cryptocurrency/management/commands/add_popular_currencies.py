@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db import IntegrityError, transaction
 from cryptocurrency.models import Currency
 
 
@@ -29,34 +30,52 @@ class Command(BaseCommand):
 
         created_count = 0
         updated_count = 0
+        skipped_count = 0
 
         for currency_data in popular_currencies:
-            currency, created = Currency.objects.get_or_create(
-                key=currency_data["key"],
-                defaults={"name": currency_data["name"]}
-            )
-            
-            if created:
-                created_count += 1
+            try:
+                with transaction.atomic():
+                    currency, created = Currency.objects.get_or_create(
+                        key=currency_data["key"],
+                        defaults={"name": currency_data["name"]}
+                    )
+                    
+                    if created:
+                        created_count += 1
+                        self.stdout.write(
+                            self.style.SUCCESS(f'✅ Created: {currency.name} ({currency.key})')
+                        )
+                    else:
+                        # Update name if it exists but name is different
+                        if currency.name != currency_data["name"]:
+                            currency.name = currency_data["name"]
+                            currency.save()
+                            updated_count += 1
+                            self.stdout.write(
+                                self.style.WARNING(f'🔄 Updated: {currency.name} ({currency.key})')
+                            )
+                        else:
+                            skipped_count += 1
+                            self.stdout.write(
+                                self.style.HTTP_INFO(f'ℹ️  Already exists: {currency.name} ({currency.key})')
+                            )
+            except IntegrityError as e:
+                skipped_count += 1
                 self.stdout.write(
-                    self.style.SUCCESS(f'Created: {currency.name} ({currency.key})')
+                    self.style.WARNING(
+                        f'⚠️  Skipped {currency_data["name"]} ({currency_data["key"]}) - IntegrityError: {str(e)}'
+                    )
                 )
-            else:
-                # Update name if it exists but name is different
-                if currency.name != currency_data["name"]:
-                    currency.name = currency_data["name"]
-                    currency.save()
-                    updated_count += 1
-                    self.stdout.write(
-                        self.style.WARNING(f'Updated: {currency.name} ({currency.key})')
+            except Exception as e:
+                skipped_count += 1
+                self.stdout.write(
+                    self.style.ERROR(
+                        f'❌ Error processing {currency_data["name"]} ({currency_data["key"]}): {str(e)}'
                     )
-                else:
-                    self.stdout.write(
-                        self.style.HTTP_INFO(f'Already exists: {currency.name} ({currency.key})')
-                    )
+                )
 
         self.stdout.write(
             self.style.SUCCESS(
-                f'\nSummary: {created_count} created, {updated_count} updated'
+                f'\n📊 Summary: {created_count} created, {updated_count} updated, {skipped_count} skipped'
             )
         )

@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
     command: >
       sh -c "python manage.py migrate &&
+             (python manage.py create_default_superuser || echo 'Superuser creation failed or already exists') &&
+             (python manage.py add_popular_currencies || echo 'Currency addition failed or already exists') &&
              python manage.py collectstatic --noinput &&
              gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 4"
     volumes:

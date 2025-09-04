@@ -184,7 +184,7 @@ def detect_fvg(candles):
             fvg_list.append({"index": i, "type": "bullish", "fvg_low": p2["high"], "fvg_high": cur["low"]})
         elif cur["high"] < p2["low"]:
             fvg_list.append({"index": i, "type": "bearish", "fvg_high": p2["low"], "fvg_low": cur["high"]})
-    return fvg_list
+    return fvg_list[max(0, len(fvg_list)-4):]
 
 
 def detect_turtle_soup(candles, lookback=5):
