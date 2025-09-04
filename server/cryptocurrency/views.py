@@ -84,7 +84,7 @@ class CurrencySubscriptionCancelAPIView(generics.UpdateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def analyze_coin_turtle(request):
     coin_obj = Currency.objects.get(uuid=request.data['coin_id'])
@@ -108,7 +108,7 @@ def analyze_coin_turtle(request):
     return HttpResponse(buf, content_type="image/png")
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def analyze_coin_fvg(request):
     coin_obj = Currency.objects.get(uuid=request.data['coin_id'])

@@ -276,6 +276,83 @@ function cancelSubscription(subscriptionUuid) {
     });
 }
 
+// Validation function for duration and step
+function validateDurationAndStep(duration, step) {
+    if (duration <= step) {
+        NotificationModal('error', 'خطا در انتخاب زمان', 'مدت زمان تحلیل باید بیشتر از گام زمانی باشد');
+        return false;
+    }
+    return true;
+}
+
+// Function to download image from blob
+function downloadImage(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+}
+
+// Function to perform analysis API call
+async function performAnalysis(endpoint, analysisType) {
+    const duration = parseInt($('#duration-selector').val());
+    const step = parseInt($('#step-selector').val());
+    
+    // Validate duration and step
+    if (!validateDurationAndStep(duration, step)) {
+        return;
+    }
+    
+    // Get the button that was clicked
+    const buttonId = analysisType === 'turtle-soup' ? '#turtle-soup-btn' : '#fvg-analysis-btn';
+    const $button = $(buttonId);
+    const originalText = $button.html();
+    
+    // Show loading state
+    $('#loadingOverlay').show();
+    $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin mr-2"></i>در حال تحلیل...');
+    
+    try {
+        const response = await axiosAgent.post(endpoint, {
+            coin_id: currentCurrencyUuid,
+            duration: duration,
+            step: step
+        }, {
+            responseType: 'blob'
+        });
+        
+        // Create filename with timestamp
+        const now = new Date();
+        const timestamp = now.toISOString().replace(/[:.]/g, '-').slice(0, -5);
+        const filename = `${analysisType}_${currentCurrency?.symbol || 'crypto'}_${timestamp}.png`;
+        
+        // Download the image
+        downloadImage(response.data, filename);
+        
+        NotificationModal('success', 'تحلیل انجام شد', 'فایل تصویر تحلیل دانلود شد');
+        
+    } catch (error) {
+        console.error(`Error performing ${analysisType} analysis:`, error);
+        
+        if (error.response?.status === 404) {
+            NotificationModal('error', 'خطا', 'سرویس تحلیل در دسترس نیست');
+        } else if (error.response?.status === 401) {
+            NotificationModal('error', 'خطا', 'احراز هویت نامعتبر است');
+        } else {
+            NotificationModal('error', 'خطا در تحلیل', error.response?.data?.message || 'خطای ناشناخته در انجام تحلیل');
+        }
+    } finally {
+        // Hide loading and restore button
+        $('#loadingOverlay').hide();
+        $button.prop('disabled', false).html(originalText);
+    }
+}
+
 function initializeEventHandlers() {
     // Create subscription button handler
     $('#create-subscription-btn').on('click', function() {
@@ -293,14 +370,33 @@ function initializeEventHandlers() {
         cancelSubscription(subscriptionId);
     });
 
-    // ICT Strategy Analysis button handler
-    $('#ict-strategy-btn').on('click', function() {
-        NotificationModal('info', 'تحلیل استراتژی ICT', 'این بخش بعداً پیاده‌سازی خواهد شد');
+    // Turtle Soup Strategy button handler
+    $('#turtle-soup-btn').on('click', function() {
+        performAnalysis('/api/crypto/analyze/turtle/', 'turtle-soup');
     });
 
-    // Market Analysis button handler
-    $('#market-analysis-btn').on('click', function() {
-        NotificationModal('info', 'تحلیل تکنیکال بازار', 'این بخش بعداً پیاده‌سازی خواهد شد');
+    // FVG Analysis button handler
+    $('#fvg-analysis-btn').on('click', function() {
+        performAnalysis('/api/crypto/analyze/fvg/', 'fvg-analysis');
+    });
+
+    // Duration and Step selector validation
+    $('#duration-selector, #step-selector').on('change', function() {
+        const duration = parseInt($('#duration-selector').val());
+        const step = parseInt($('#step-selector').val());
+        
+        if (duration <= step) {
+            $(this).addClass('is-invalid');
+            if (!$('#validation-message').length) {
+                $('<div id="validation-message" class="alert alert-warning mt-2">' +
+                  '<i class="fa fa-exclamation-triangle mr-1"></i>' +
+                  'مدت زمان تحلیل باید بیشتر از گام زمانی باشد' +
+                  '</div>').insertAfter('#step-selector').closest('.col-md-6');
+            }
+        } else {
+            $('#duration-selector, #step-selector').removeClass('is-invalid');
+            $('#validation-message').remove();
+        }
     });
 
     // Logout button handler
