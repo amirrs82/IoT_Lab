@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'iot-lab-super-secret-key-for-production-2025')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,backend,frontend').split(',')
 
@@ -86,8 +86,8 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', 'iot_lab_db'),
         'USER': os.environ.get('DB_USER', 'iot_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'iot_secure_password_2025'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'HOST': os.environ.get('DB_HOST', '0.0.0.0'),
+        'PORT': os.environ.get('DB_PORT', '10001'),
     }
 }
 

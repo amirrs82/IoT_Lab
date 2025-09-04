@@ -34,7 +34,7 @@ services:
     ports:
       - "10003:8000"
     environment:
-      - DEBUG=False
+      - DEBUG=True
       - SECRET_KEY=iot-lab-super-secret-key-for-production-2025
       - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,backend,frontend
       - DB_ENGINE=django.db.backends.postgresql

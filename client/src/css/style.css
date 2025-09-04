@@ -173,3 +173,36 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, ta
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Analysis section styles */
+.form-label {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+#validation-message {
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.analysis-button {
+    transition: all 0.3s ease;
+}
+
+.analysis-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.analysis-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
