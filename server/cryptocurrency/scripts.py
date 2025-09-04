@@ -210,7 +210,7 @@ def get_candles(raw):
     return candles
 
 def get_time_format(duration):
-    if duration < 604800:
+    if duration <= 604800:
         return "%H:%M" #time
     else:
-        "%m/%d" #day and month
+        return "%m/%d" #day and month
