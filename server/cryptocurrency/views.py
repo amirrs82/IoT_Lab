@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from cryptocurrency.models import Currency, CurrencySubscription
 from cryptocurrency.scripts import detect_fvg, detect_turtle_soup, get_historical_price_data, plot_ict_chart, \
-    get_candles
+    get_candles, get_time_format
 from cryptocurrency.serializers import (
     CurrencySerializer,
     CurrencySubscriptionSerializer,
@@ -97,8 +97,9 @@ def analyze_coin_turtle(request):
     raw = get_historical_price_data(coin, start_time, end_time, step)
     candles = get_candles(raw)
 
+    format = get_time_format(duration)
     turtle = detect_turtle_soup(candles)
-    plt = plot_ict_chart(candles, [], turtle)
+    plt = plot_ict_chart(candles, format, turtle)
 
     # Convert plot to image and return as response
     buf = BytesIO()
@@ -120,8 +121,9 @@ def analyze_coin_fvg(request):
     raw = get_historical_price_data(coin, start_time, end_time, step)
     candles = get_candles(raw)
 
+    format = get_time_format(duration)
     fvg = detect_fvg(candles)
-    plt = plot_ict_chart(candles, fvg, [])
+    plt = plot_ict_chart(candles, format, fvg)
 
     # Convert plot to image and return as response
     buf = BytesIO()

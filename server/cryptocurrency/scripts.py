@@ -132,7 +132,7 @@ def get_historical_price_data(coin_name, start_time, end_time, step_seconds, cur
         return {"error": str(e)}
 
 
-def plot_ict_chart(candles, fvg=[], turtle_signals=[]):
+def plot_ict_chart(candles, time_format, fvg=[], turtle_signals=[]):
     times = [datetime.fromtimestamp(c["timestamp"], timezone.utc) for c in candles]
     opens = [c["open"] for c in candles]
     highs = [c["high"] for c in candles]
@@ -161,11 +161,16 @@ def plot_ict_chart(candles, fvg=[], turtle_signals=[]):
         else:
             ax.plot(t, lvl, marker='x', markersize=10, color='gray')
 
+    if fvg:
+        strategy = 'Fair Value Gaps'
+    else:
+        strategy = 'Turtle Soup'
+
     # Formatting
-    ax.set_title("ICT Chart: Complete Toolkit + Strategies")
+    ax.set_title(f"ICT Chart with {strategy} strategy")
     ax.set_xlabel("Time (UTC)")
     ax.set_ylabel("Price")
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter(time_format))
     plt.grid(True)
     plt.tight_layout()
     return plt
@@ -203,3 +208,9 @@ def get_candles(raw):
         for itm in raw if all(v is not None for v in [itm["open"], itm["close"], itm["min"], itm["max"]])
     ]
     return candles
+
+def get_time_format(duration):
+    if duration < 604800:
+        return "%H:%M" #time
+    else:
+        "%m/%d" #day and month
