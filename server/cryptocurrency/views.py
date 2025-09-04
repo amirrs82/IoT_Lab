@@ -1,11 +1,18 @@
+from datetime import datetime
+from io import BytesIO
+
+from django.http import HttpResponse
+from matplotlib.pyplot import savefig
 from rest_framework import generics, status
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from cryptocurrency.models import Currency, CurrencySubscription
+from cryptocurrency.scripts import detect_fvg, detect_turtle_soup, get_historical_price_data, plot_ict_chart, \
+    get_candles
 from cryptocurrency.serializers import (
-    CurrencySerializer, 
-    CurrencySubscriptionSerializer, 
+    CurrencySerializer,
+    CurrencySubscriptionSerializer,
     CurrencySubscriptionCreateSerializer
 )
 
@@ -45,7 +52,7 @@ class CurrencySubscriptionCreateAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         subscription = serializer.save()
-        
+
         # Return the created subscription with full details
         response_serializer = CurrencySubscriptionSerializer(subscription)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
@@ -62,16 +69,64 @@ class CurrencySubscriptionCancelAPIView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         subscription = self.get_object()
-        
+
         # Only allow cancelling if status is 'waiting'
         if subscription.status != CurrencySubscription.StatusChoices.WAITING:
             return Response(
                 {'error': 'Only waiting subscriptions can be cancelled'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         subscription.status = CurrencySubscription.StatusChoices.CANCELLED
         subscription.save()
-        
+
         serializer = self.get_serializer(subscription)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def analyze_coin_turtle(request):
+    coin_obj = Currency.objects.get(uuid=request.data['coin_id'])
+    coin = coin_obj.key
+    duration = request.data['duration']
+    step = request.data['step']
+    end_time = int(datetime.now().timestamp())
+    start_time = end_time - duration
+
+    raw = get_historical_price_data(coin, start_time, end_time, step)
+    candles = get_candles(raw)
+
+    turtle = detect_turtle_soup(candles)
+    plt = plot_ict_chart(candles, [], turtle)
+
+    # Convert plot to image and return as response
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return HttpResponse(buf, content_type="image/png")
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def analyze_coin_fvg(request):
+    coin_obj = Currency.objects.get(uuid=request.data['coin_id'])
+    coin = coin_obj.key
+    duration = request.data['duration']
+    step = request.data['step']
+    end_time = int(datetime.now().timestamp())
+    start_time = end_time - duration
+
+    raw = get_historical_price_data(coin, start_time, end_time, step)
+    candles = get_candles(raw)
+
+    fvg = detect_fvg(candles)
+    plt = plot_ict_chart(candles, fvg, [])
+
+    # Convert plot to image and return as response
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    return HttpResponse(buf, content_type="image/png")
+
+
