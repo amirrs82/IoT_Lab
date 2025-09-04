@@ -139,7 +139,7 @@ def plot_ict_chart(candles, time_format, fvg=[], turtle_signals=[]):
     lows = [c["low"] for c in candles]
     closes = [c["close"] for c in candles]
 
-    fig, ax = plt.subplots(figsize=(14, 6))
+    fig, ax = plt.subplots(figsize=(16, 8))
 
     # Plot candle wicks and bodies
     for i in range(len(candles)):
@@ -208,6 +208,7 @@ def get_candles(raw):
         for itm in raw if all(v is not None for v in [itm["open"], itm["close"], itm["min"], itm["max"]])
     ]
     return candles
+
 
 def get_time_format(duration):
     if duration <= 604800:

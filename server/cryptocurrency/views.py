@@ -99,7 +99,7 @@ def analyze_coin_turtle(request):
 
     format = get_time_format(duration)
     turtle = detect_turtle_soup(candles)
-    plt = plot_ict_chart(candles, format, turtle)
+    plt = plot_ict_chart(candles, format, turtle_signals=turtle)
 
     # Convert plot to image and return as response
     buf = BytesIO()
@@ -123,7 +123,7 @@ def analyze_coin_fvg(request):
 
     format = get_time_format(duration)
     fvg = detect_fvg(candles)
-    plt = plot_ict_chart(candles, format, fvg)
+    plt = plot_ict_chart(candles, format, fvg=fvg)
 
     # Convert plot to image and return as response
     buf = BytesIO()
