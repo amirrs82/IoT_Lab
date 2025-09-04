@@ -197,21 +197,52 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fa fa-chart-line mr-1"></i>
-                  ابزارهای تحلیل
+                  استراتژی‌های ICT
                 </h3>
               </div>
-              <div class="card-body text-center">
-                <div class="row">
+              <div class="card-body">
+                <!-- Duration and Step Selectors -->
+                <div class="row mb-4">
+                  <div class="col-md-6">
+                    <label for="duration-selector" class="form-label">
+                      <i class="fa fa-clock mr-1"></i>
+                      مدت زمان تحلیل:
+                    </label>
+                    <select class="form-control" id="duration-selector">
+                      <option value="86400">۱ روز</option>
+                      <option value="172800">۲ روز</option>
+                      <option value="604800" selected>۱ هفته</option>
+                      <option value="1209600">۲ هفته</option>
+                      <option value="2592000">۱ ماه</option>
+                      <option value="5184000">۲ ماه</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="step-selector" class="form-label">
+                      <i class="fa fa-step-forward mr-1"></i>
+                      گام زمانی:
+                    </label>
+                    <select class="form-control" id="step-selector">
+                      <option value="3600">۱ ساعت</option>
+                      <option value="21600" selected>۶ ساعت</option>
+                      <option value="86400">۱ روز</option>
+                      <option value="604800">۱ هفته</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <!-- Analysis Buttons -->
+                <div class="row text-center">
                   <div class="col-md-6 mb-3">
-                    <button type="button" id="ict-strategy-btn" class="btn btn-warning btn-lg btn-block">
-                      <i class="fa fa-brain mr-2"></i>
-                      تحلیل استراتژی ICT
+                    <button type="button" id="turtle-soup-btn" class="btn btn-warning btn-lg btn-block analysis-button">
+                      <i class="fa fa-bullseye mr-2"></i>
+                      استراتژی Turtle Soup
                     </button>
                   </div>
                   <div class="col-md-6 mb-3">
-                    <button type="button" id="market-analysis-btn" class="btn btn-info btn-lg btn-block">
-                      <i class="fa fa-chart-area mr-2"></i>
-                      تحلیل تکنیکال بازار
+                    <button type="button" id="fvg-analysis-btn" class="btn btn-info btn-lg btn-block analysis-button">
+                      <i class="fa fa-chart-bar mr-2"></i>
+                      تحلیل FVG (Fair Value Gap)
                     </button>
                   </div>
                 </div>
