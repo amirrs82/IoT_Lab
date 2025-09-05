@@ -40,7 +40,28 @@ ul, ol {
 
 ## راه‌اندازی سریع
 
-### 1. دریافت و اجرای پروژه
+### 1. تنظیم ایمیل برای ارسال اطلاعیه‌ها
+
+**⚠️ توجه مهم:** قبل از اجرای پروژه، باید تنظیمات Gmail خودتان را در فایل `docker-compose.yml` انجام دهید:
+
+1. **ایجاد App Password برای Gmail**:
+   - به لینک زیر مراجعه کنید و یک App Password برای Gmail خود ایجاد کنید:
+   - **[آموزش ایجاد App Password](https://virgool.io/@Er1/%D8%A7%D8%B3%D8%AA%D9%81%D8%A7%D8%AF%D9%87-%D8%A7%D8%B2-app-passwords-elzia1ptjzin)**
+
+2. **ویرایش docker-compose.yml**:
+   ```bash
+   # ویرایش فایل docker-compose.yml
+   nano docker-compose.yml
+   ```
+   
+   سپس در بخش environment variables، ایمیل و App Password خود را جایگزین کنید:
+   ```yaml
+   environment:
+     - EMAIL_HOST_USER=your-email@gmail.com
+     - EMAIL_HOST_PASSWORD=your-app-password
+   ```
+
+### 2. دریافت و اجرای پروژه
 
 ```bash
 # کلون کردن پروژه (در صورت نیاز)
@@ -51,7 +72,7 @@ cd IoT_Lab
 docker compose up --build -d
 ```
 
-### 2. دسترسی به سیستم
+### 3. دسترسی به سیستم
 
 پس از راه‌اندازی موفق، سرویس‌های زیر در دسترس خواهند بود:
 
@@ -61,7 +82,7 @@ docker compose up --build -d
 
 - **🔗 Backend API**: [http://localhost:10003](http://localhost:10003)
 
-### 3. ورود به پنل مدیریت
+### 4. ورود به پنل مدیریت
 
 یک حساب کاربری مدیر و پایگاه داده ارزهای دیجیتال به صورت خودکار ایجاد می‌شوند:
 
